@@ -1,4 +1,28 @@
 <div class="map" id="container"></div>
-<div>
-    新建地块
+<div class="left-box">
+    <div class="toolbox">
+        <button (click)="showSearch()" nz-button>
+            <i nz-icon nzType="search" nzTheme="outline"></i>
+        </button>
+        <button (click)="createPolygon()" nz-button>
+            <i nz-icon nzType="appstore-add" nzTheme="outline"></i>
+        </button>
+        <button (click)="importFile()" nz-button>
+            <i nz-icon nzType="import" nzTheme="outline"></i>
+        </button>
+        <button (click)="exportFile()" nz-button>
+            <i nz-icon nzType="download" nzTheme="outline"></i>
+        </button>
+    </div>
+    <div class="content-box">
+        <div class="item-list">
+            <div class="item" *ngFor="let landBlock of landBlockList" (click)="selectLandBlock(landBlock)"
+                [ngClass]="{'active': selected===landBlock}">
+                <div class="name">{{landBlock.name}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="right-box">
+
 </div>

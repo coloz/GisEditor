@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as AMapLoader from '@amap/amap-jsapi-loader';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { DataService, LandBlock } from '../services/data.service';
 
 @Component({
   selector: 'app-home',
@@ -7,10 +9,21 @@ import * as AMapLoader from '@amap/amap-jsapi-loader';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  AMap: any;
   map: any;
   polyEditor: any;
 
-  constructor() { }
+  selected: LandBlock | null = null;
+  selectedList: LandBlock[] = [];
+
+  get landBlockList() {
+    return this.data.landBlockList
+  }
+
+  constructor(
+    private message: NzMessageService,
+    private data: DataService
+  ) { }
 
   ngOnInit(): void {
   }
@@ -21,44 +34,13 @@ export class HomeComponent implements OnInit {
       "version": "2.0",
       "plugins": ['AMap.PolygonEditor'],
     }).then((AMap: any) => {
+      this.AMap = AMap;
       this.map = new AMap.Map('container', {
         center: [104.066301, 30.572961],
         zoom: 16
       });
-
-      var path1 = [[116.475334, 39.997534], [116.476627, 39.998315], [116.478603, 39.99879], [116.478529, 40.000296], [116.475082, 40.000151], [116.473421, 39.998717]]
-      var path2 = [[116.474595, 40.001321], [116.473526, 39.999865], [116.476284, 40.000917]]
-      var polygon1 = new AMap.Polygon({
-        path: path1
-      })
-      var polygon2 = new AMap.Polygon({
-        path: path2
-      })
-
-      this.map.add([polygon1, polygon2]);
-      this.map.setFitView();
       this.polyEditor = new AMap.PolygonEditor(this.map);
-      this.polyEditor.addAdsorbPolygons([polygon1, polygon2]);
-      this.polyEditor.on('add', (data: any) => {
-        console.log(data);
-        var polygon = data.target;
-        this.polyEditor.addAdsorbPolygons(polygon);
-        polygon.on('dblclick', () => {
-          this.polyEditor.setTarget(polygon);
-          this.polyEditor.open();
-        })
-      })
-      polygon1.on('dblclick', () => {
-        this.polyEditor.setTarget(polygon1);
-        this.polyEditor.open();
-      })
-      polygon2.on('dblclick', () => {
-        this.polyEditor.setTarget(polygon2);
-        this.polyEditor.open();
-      })
-      this.polyEditor.setTarget(polygon2);
-      this.polyEditor.open();
-
+      this.loadLandBlockList()
     }).catch((e: any) => {
       console.log(e);
     })
@@ -66,10 +48,71 @@ export class HomeComponent implements OnInit {
 
   }
 
+  loadLandBlockList() {
+    let polygonList: any[] = []
+    this.data.landBlockList.forEach(landBlock => {
+      let polygon = new this.AMap.Polygon({
+        path: landBlock.path
+      })
+      polygon.on('click', () => {
+        this.polyEditor.setTarget(polygon);
+        this.polyEditor.open();
+        this.selected = landBlock;
+      })
+      polygonList.push(polygon)
+    })
+    this.map.add(polygonList);
+    this.polyEditor.addAdsorbPolygons(polygonList);
+  }
+
+  selectLandBlock(landBlock: LandBlock) {
+
+  }
+
   createPolygon() {
     this.polyEditor.close();
     this.polyEditor.setTarget();
     this.polyEditor.open();
+    this.message.info('点击地图上任意位置，开始绘制地块<br>双击结束绘制<br>右键撤销绘制');
+    this.polyEditor.on('add', async (data: any) => {
+      console.log(data);
+      let polygon = data.target;
+      let landBlock: LandBlock = {
+        id: "11",
+        name: '新建地块',
+        addr: '',
+        creator: 'clz',
+        createTime: new Date().toLocaleString(),
+        updateTime: new Date().toLocaleString(),
+        path: polygon.getPath().map((p: any) => [p.lng, p.lat]),
+      }
+      landBlock.name = await this.data.getAddress(landBlock.path)
+
+      if (this.landBlockList.length == 0 ||
+        JSON.stringify(this.landBlockList[this.landBlockList.length - 1].path) != JSON.stringify(landBlock.path)) {
+        this.data.addLandBlock(landBlock)
+        this.selected = landBlock;
+        this.polyEditor.addAdsorbPolygons(polygon);
+        polygon.on('click', () => {
+          console.log('选中块：', landBlock.name);
+          this.polyEditor.setTarget(polygon);
+          this.polyEditor.open();
+          this.selected = landBlock;
+        })
+      }
+    })
+  }
+
+  showSearch() {
+
+  }
+
+  importFile() {
+
+  }
+
+  exportFile() {
+
   }
 
 }
