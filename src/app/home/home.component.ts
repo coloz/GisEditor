@@ -66,6 +66,17 @@ export class HomeComponent implements OnInit {
     this.map.add(polygonList);
     this.polyEditor.addAdsorbPolygons(polygonList);
 
+    // 调整地块
+    this.polyEditor.on('adjust', (data: any) => {
+      this.polygonChange(data)
+    })
+    this.polyEditor.on('addnode', (data: any) => {
+      this.polygonChange(data)
+    })
+    this.polyEditor.on('removenode', (data: any) => {
+      this.polygonChange(data)
+    })
+
     // 添加地块
     this.polyEditor.on('add', async (data: any) => {
       console.log(data);
@@ -95,16 +106,15 @@ export class HomeComponent implements OnInit {
       }
       this.polygonDict[landBlock.id] = polygon
     })
-    // 调整地块
-    this.polyEditor.on('adjust', (data: any) => {
-      console.log('adjust:', data);
-      let polygon = data.target;
-      if (this.selected != null)
-        this.selected.path = polygon.getPath().map((p: any) => [p.lng, p.lat])
-      this.data.saveLandBlock()
-      console.log(this.selected);
+  }
 
-    })
+  polygonChange(data: any) {
+    console.log('adjust:', data);
+    let polygon = data.target;
+    if (this.selected != null)
+      this.selected.path = polygon.getPath().map((p: any) => [p.lng, p.lat])
+    this.data.saveLandBlock()
+    console.log(this.selected);
   }
 
   selectLandBlock(landBlock: LandBlock) {
