@@ -10,9 +10,10 @@
     border-radius: 10px;
     top: 15px;
     left: 15px;
-    padding: 15px;
+    padding: 15px 0;
     width: 300px;
     max-height: calc(100vh - 30px);
+    overflow: hidden;
 }
 
 .right-box {
@@ -41,29 +42,77 @@
 }
 
 .content-box {
-    margin-top: 30px;
-
+    margin-top: 40px;
+    height: calc(100vh - 85px);
+    position: relative;
 }
-
-
 
 .item-list {
     display: flex;
     flex-direction: column;
 
     .item {
+        position: relative;
         height: 80px;
+        width: calc(100% - 30px);
         border-bottom: 1px solid #CCC;
-        padding: 15px 0;
         cursor: pointer;
+        box-shadow: 0 0 5px #CCC;
+        flex-grow: 0;
+        flex-shrink: 0;
+        margin-top: 15px;
+        margin-left: 15px;
+        border-radius: 10px;
+        padding: 10px;
+        transition: all 0.3s;
+        overflow: hidden;
+
+        .addr {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .del-btn {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            cursor: pointer;
+
+            &:hover {
+                color: rgb(0, 108, 190);
+            }
+        }
 
         &:hover {
-            background: #EEE;
+            box-shadow: 0 0 5px rgb(0, 108, 190);
         }
 
         &.active {
             background: rgb(0, 108, 190);
             color: #FFF;
+
+            .addr {
+                color: #ddd;
+            }
+
+            .del-btn {
+                color: #ddd;
+
+                &:hover {
+                    color: #FFF;
+                }
+            }
+        }
+
+        &.removeShow {
+            visibility: hidden;
+        }
+
+        &.removeHeight {
+            visibility: hidden;
+            height: 0;
+            padding: 0;
+            margin-top: 0;
         }
     }
 }

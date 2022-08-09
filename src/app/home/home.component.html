@@ -7,18 +7,27 @@
         <button (click)="createPolygon()" nz-button>
             <i nz-icon nzType="appstore-add" nzTheme="outline"></i>
         </button>
-        <button (click)="importFile()" nz-button>
+        <!-- <button (click)="importFile()" nz-button>
             <i nz-icon nzType="import" nzTheme="outline"></i>
-        </button>
+        </button> -->
         <button (click)="exportFile()" nz-button>
             <i nz-icon nzType="download" nzTheme="outline"></i>
         </button>
     </div>
-    <div class="content-box">
+    <div class="content-box" [perfectScrollbar]="{}">
         <div class="item-list">
-            <div class="item" *ngFor="let landBlock of landBlockList" (click)="selectLandBlock(landBlock)"
-                [ngClass]="{'active': selected===landBlock}">
+            <div class="item animate__animated animate__faster" *ngFor="let landBlock of landBlockList"
+                (click)="selectLandBlock(landBlock)" [ngClass]="{
+                'active': selected===landBlock,
+                'animate__flipOutX':landBlock.removeState==1,
+                'removeShow':landBlock.removeState==2,
+                'removeHeight':landBlock.removeState==3
+            }">
                 <div class="name">{{landBlock.name}}</div>
+                <div class="addr">{{landBlock.addr}}</div>
+                <div class="del-btn" (click)="delLandBlock(landBlock)">
+                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                </div>
             </div>
         </div>
     </div>

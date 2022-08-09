@@ -11,6 +11,7 @@ export interface LandBlock {
   path: any[],
   color?: string,
   type?: string,
+  removeState?: number,
 }
 
 @Injectable({
@@ -52,6 +53,16 @@ export class DataService {
 
   addLandBlock(landBlock: LandBlock) {
     this.landBlockList.push(landBlock);
+    this.saveLandBlock()
+  }
+
+  delLandBlock(landBlock: LandBlock) {
+    let index = this.landBlockList.indexOf(landBlock)
+    this.landBlockList.splice(index, 1)
+    this.saveLandBlock()
+  }
+
+  saveLandBlock() {
     localStorage.setItem('landBlockList', JSON.stringify(this.landBlockList));
   }
 
@@ -64,8 +75,11 @@ export class DataService {
           location: center[0] + ',' + center[1],
         }
       }).subscribe((data: any) => {
-        console.log(data.regeocode.formatted_address);
+        // console.log(data.regeocode.formatted_address);
+        // data.regeocode.addressComponent.building.name
         resolve(data.regeocode.formatted_address);
+        // console.log(data);
+        // resolve(data.regeocode.addressComponent.building.name);
       })
     })
 
