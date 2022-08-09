@@ -76,8 +76,15 @@ export class DataService {
         }
       }).subscribe((data: any) => {
         // console.log(data.regeocode.formatted_address);
-        // data.regeocode.addressComponent.building.name
-        resolve(data.regeocode.formatted_address);
+        // console.log(data.regeocode);
+        // if (data.regeocode.addressComponent.building.name != '')
+        //   resolve(data.regeocode.addressComponent.building.name);
+        // else
+        let address = data.regeocode.formatted_address
+          .replace(data.regeocode.addressComponent.province, '')
+          .replace(data.regeocode.addressComponent.city, '')
+          .replace(data.regeocode.addressComponent.district, '')
+        resolve(address);
         // console.log(data);
         // resolve(data.regeocode.addressComponent.building.name);
       })

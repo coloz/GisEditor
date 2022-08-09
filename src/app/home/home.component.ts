@@ -97,7 +97,7 @@ export class HomeComponent implements OnInit {
     })
     // 调整地块
     this.polyEditor.on('adjust', (data: any) => {
-      console.log(data);
+      console.log('adjust:', data);
       let polygon = data.target;
       if (this.selected != null)
         this.selected.path = polygon.getPath().map((p: any) => [p.lng, p.lat])
