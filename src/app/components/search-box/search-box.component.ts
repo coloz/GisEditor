@@ -47,7 +47,7 @@ export class SearchBoxComponent implements OnInit {
   }
 
   gotoPosition(item: any) {
-    this.data.map.setCenter(item.position)
+    this.data.gotoPosition(item.position)
   }
 
 }

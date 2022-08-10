@@ -5,18 +5,22 @@ import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { FormsModule } from '@angular/forms';
 import { InfoBoxComponent } from './info-box/info-box.component';
+import { ItemListComponent } from './item-list/item-list.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 
 @NgModule({
   declarations: [
     SearchBoxComponent,
-    InfoBoxComponent
+    InfoBoxComponent,
+    ItemListComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     NzInputModule,
-    NzButtonModule
+    NzButtonModule,
+    PerfectScrollbarModule
   ],
   exports: [
     SearchBoxComponent,

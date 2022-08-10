@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { GisItem } from 'src/app/interfaces/item.interface';
 
 @Component({
   selector: 'app-info-box',
@@ -7,7 +8,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class InfoBoxComponent implements OnInit {
 
-  @Input() data: any;
+  @Input() data: GisItem;
 
   constructor() { }
 

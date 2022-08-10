@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import * as AMapLoader from '@amap/amap-jsapi-loader';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { DataService, LandBlock } from '../services/data.service';
+import { DataService } from '../services/data.service';
 import { saveAs } from 'file-saver';
+import { GisItem } from '../interfaces/item.interface';
 
 @Component({
   selector: 'app-home',
@@ -14,10 +15,12 @@ export class HomeComponent implements OnInit {
   map: any;
   polyEditor: any;
 
-  selected: LandBlock | null = null;
-  selectedList: LandBlock[] = [];
+  selected: GisItem | null = null;
+  selectedList: GisItem[] = [];
 
   polygonDict: any = {}
+
+  tapPolygonTimer = false;
 
   get landBlockList() {
     return this.data.landBlockList
@@ -45,12 +48,12 @@ export class HomeComponent implements OnInit {
       this.data.map = this.map
       this.polyEditor = new AMap.PolygonEditor(this.map);
       this.loadLandBlockList()
-      // this.map.on('click', (e: any) => {
-      //   console.log(e.target);
-      //   console.log(JSON.stringify(e.target));
-        
-      //   this.polyEditor.close();
-      // })
+
+      this.map.on('click', (e: any) => {
+        if (!this.tapPolygonTimer)
+          this.polyEditor.close();
+      })
+
     }).catch((e: any) => {
       console.log(e);
     })
@@ -63,8 +66,7 @@ export class HomeComponent implements OnInit {
         path: landBlock.path
       })
       polygon.on('click', (e: any) => {
-        console.log(e);
-
+        this.tapPolygon()
         this.polyEditor.setTarget(polygon);
         this.polyEditor.open();
         this.selected = landBlock;
@@ -90,7 +92,7 @@ export class HomeComponent implements OnInit {
     this.polyEditor.on('add', async (data: any) => {
       console.log(data);
       let polygon = data.target;
-      let landBlock: LandBlock = {
+      let landBlock: GisItem = {
         id: this.randomString(16),
         name: '新的地块' + this.randomString(2),
         addr: '',
@@ -107,13 +109,14 @@ export class HomeComponent implements OnInit {
         this.selected = landBlock;
         this.polyEditor.addAdsorbPolygons(polygon);
         polygon.on('click', () => {
-          console.log('选中块：', landBlock.name);
+          this.tapPolygon()
           this.polyEditor.setTarget(polygon);
           this.polyEditor.open();
           this.selected = landBlock;
         })
       }
       this.polygonDict[landBlock.id] = polygon
+      this.tapPolygonTimer = false
     })
   }
 
@@ -126,11 +129,13 @@ export class HomeComponent implements OnInit {
     console.log(this.selected);
   }
 
-  selectLandBlock(landBlock: LandBlock) {
+  selectLandBlock(landBlock: GisItem) {
     let polygon = this.polygonDict[landBlock.id]
     this.polyEditor.setTarget(polygon);
     this.polyEditor.open();
     this.selected = landBlock;
+    let center = this.data.getCenter(landBlock.path)
+    this.data.gotoPosition(center);
   }
 
   createPonit() {
@@ -142,6 +147,7 @@ export class HomeComponent implements OnInit {
   }
 
   createPolygon() {
+    this.tapPolygonTimer = true
     this.polyEditor.close();
     this.polyEditor.setTarget();
     this.polyEditor.open();
@@ -171,7 +177,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  delLandBlock(landBlock: LandBlock) {
+  delLandBlock(landBlock: GisItem) {
     landBlock['removeState'] = 1
     setTimeout(() => {
       landBlock['removeState'] = 2
@@ -191,5 +197,13 @@ export class HomeComponent implements OnInit {
     for (let i = 0; i < length; i++) str += t.charAt(Math.floor(Math.random() * a));
     return str
   }
+
+  tapPolygon() {
+    this.tapPolygonTimer = true
+    setTimeout(() => {
+      this.tapPolygonTimer = false
+    }, 100);
+  }
+
 
 }

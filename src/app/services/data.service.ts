@@ -1,25 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
-export interface LandBlock {
-  id: string,
-  name: string,
-  addr?: string,
-  creator?: string,
-  createTime: string,
-  updateTime: string,
-  path: any[],
-  color?: string,
-  type?: string,
-  removeState?: number,
-}
+import { GisItem } from '../interfaces/item.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
-  landBlockList: LandBlock[] = [
+  landBlockList: GisItem[] = [
     // {
     //   id: "1",
     //   name: "北京",
@@ -53,12 +41,12 @@ export class DataService {
   }
 
 
-  addLandBlock(landBlock: LandBlock) {
+  addLandBlock(landBlock: GisItem) {
     this.landBlockList.push(landBlock);
     this.saveLandBlock()
   }
 
-  delLandBlock(landBlock: LandBlock) {
+  delLandBlock(landBlock: GisItem) {
     let index = this.landBlockList.indexOf(landBlock)
     this.landBlockList.splice(index, 1)
     this.saveLandBlock()
@@ -122,5 +110,10 @@ export class DataService {
     var Lat = Math.atan2(Z, Hyp);
     return [(Lng * 180) / Math.PI, (Lat * 180) / Math.PI];
   }
+
+  gotoPosition(position: any) {
+    this.map.setCenter(position)
+  }
+
 
 }
