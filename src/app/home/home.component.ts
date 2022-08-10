@@ -42,8 +42,15 @@ export class HomeComponent implements OnInit {
         center: [104.066301, 30.572961],
         zoom: 16
       });
+      this.data.map = this.map
       this.polyEditor = new AMap.PolygonEditor(this.map);
       this.loadLandBlockList()
+      // this.map.on('click', (e: any) => {
+      //   console.log(e.target);
+      //   console.log(JSON.stringify(e.target));
+        
+      //   this.polyEditor.close();
+      // })
     }).catch((e: any) => {
       console.log(e);
     })
@@ -55,7 +62,9 @@ export class HomeComponent implements OnInit {
       let polygon = new this.AMap.Polygon({
         path: landBlock.path
       })
-      polygon.on('click', () => {
+      polygon.on('click', (e: any) => {
+        console.log(e);
+
         this.polyEditor.setTarget(polygon);
         this.polyEditor.open();
         this.selected = landBlock;
@@ -124,6 +133,14 @@ export class HomeComponent implements OnInit {
     this.selected = landBlock;
   }
 
+  createPonit() {
+
+  }
+
+  createLine() {
+
+  }
+
   createPolygon() {
     this.polyEditor.close();
     this.polyEditor.setTarget();
@@ -131,8 +148,9 @@ export class HomeComponent implements OnInit {
     this.message.info('点击地图上任意位置，开始绘制地块<br>双击结束绘制<br>右键撤销绘制');
   }
 
-  showSearch() {
-
+  showSearch = false
+  openSearchBar() {
+    this.showSearch = !this.showSearch
   }
 
   importFile() {

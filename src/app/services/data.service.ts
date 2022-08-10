@@ -40,6 +40,8 @@ export class DataService {
     // },
   ]
 
+  map: any;
+
   constructor(
     private http: HttpClient
   ) {
@@ -66,12 +68,14 @@ export class DataService {
     localStorage.setItem('landBlockList', JSON.stringify(this.landBlockList));
   }
 
+  amapKey = 'dac1234df58fc86479e99d0d7168bf1f'
+
   getAddress(path: any[]) {
     return new Promise<string>((resolve, reject) => {
       let center = this.getCenter(path);
       this.http.get('https://restapi.amap.com/v3/geocode/regeo', {
         params: {
-          key: 'dac1234df58fc86479e99d0d7168bf1f',
+          key: this.amapKey,
           location: center[0] + ',' + center[1],
         }
       }).subscribe((data: any) => {
@@ -81,6 +85,15 @@ export class DataService {
           .replace(data.regeocode.addressComponent.district, '')
         resolve(address);
       })
+    })
+  }
+
+  search(keyword: string) {
+    return this.http.get('https://restapi.amap.com/v3/assistant/inputtips', {
+      params: {
+        key: this.amapKey,
+        keywords: keyword,
+      }
     })
 
   }

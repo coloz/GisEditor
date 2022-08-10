@@ -1,0 +1,17 @@
+<div>
+    <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+        <input type="text" nz-input placeholder="地址搜索" [(ngModel)]="keyword" (ngModelChange)="keywordChange()" />
+    </nz-input-group>
+    <ng-template #suffixIconButton>
+        <button nz-button nzType="primary" nzSearch>
+            <i class="fa-light fa-magnifying-glass"></i>
+        </button>
+    </ng-template>
+    <div class="result-box">
+        <div class="item" *ngFor="let item of resultList" (click)="gotoPosition(item)">
+            <div>{{item.name}}</div>
+            <div>{{item.district}}</div>
+            <!-- <div>{{item.position}}</div> -->
+        </div>
+    </div>
+</div>

@@ -5,45 +5,71 @@
 
 .left-box {
     position: absolute;
-    background: #FFF;
+    background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 10px #CCC;
     border-radius: 10px;
     top: 15px;
     left: 15px;
     padding: 15px 0;
-    width: 300px;
-    max-height: calc(100vh - 30px);
+    width: 50px;
+    max-height: calc(100vh - 20px);
     overflow: hidden;
+    display: flex;
+    justify-content: center;
 }
 
 .right-box {
     position: absolute;
-    background: #FFF;
+    background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 0 10px #CCC;
     border-radius: 10px;
     top: 15px;
     right: 15px;
-    padding: 15px;
+    padding: 10px 0;
     width: 300px;
     max-height: calc(100vh - 30px);
 }
 
-.toolbox {
+.search-box {
     position: absolute;
-    padding-bottom: 10px;
-    top: 10px;
-    left: 10px;
-    width: calc(100% - 20px);
-    border-bottom: 1px solid #CCC;
+    top: 15px;
+    left: 75px;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.info-box {
+    position: absolute;
+    top: 15px;
+    right: 330px;
+    width: 300px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.toolbox {
+    display: flex;
+    flex-direction: column;
 
     button {
-        margin-right: 10px;
+        margin: 5px 0;
+
+        &:first-child {
+            margin-top: 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
 }
 
 .content-box {
-    margin-top: 40px;
     height: calc(100vh - 85px);
+    width: 100%;
     position: relative;
 }
 

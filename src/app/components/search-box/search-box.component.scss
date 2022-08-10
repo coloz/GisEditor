@@ -1,0 +1,14 @@
+.item {
+    padding: 5px 0;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: 0 0 5px rgb(0, 108, 190);
+    }
+
+    >div:last-child {
+        color: #666;
+        font-size: 12px;
+    }
+}

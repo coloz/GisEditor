@@ -22,13 +22,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
-import { NzIconModule } from 'ng-zorro-antd/icon';
-import { IconDefinition } from '@ant-design/icons-angular';
-import * as AllIcons from '@ant-design/icons-angular/icons';
-const antDesignIcons = AllIcons as {
-  [key: string]: IconDefinition;
-};
-const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
+import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { ComponentsModule } from './components/components.module';
+// import { NzIconModule } from 'ng-zorro-antd/icon';
+// import { IconDefinition } from '@ant-design/icons-angular';
+// import * as AllIcons from '@ant-design/icons-angular/icons';
+// const antDesignIcons = AllIcons as {
+//   [key: string]: IconDefinition;
+// };
+// const icons: IconDefinition[] = Object.keys(antDesignIcons).map(key => antDesignIcons[key])
 
 registerLocaleData(zh);
 
@@ -42,11 +44,13 @@ registerLocaleData(zh);
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ComponentsModule,
     BrowserAnimationsModule,
     NzButtonModule,
     NzMessageModule,
-    NzIconModule.forRoot(icons),
-    PerfectScrollbarModule
+    // NzIconModule.forRoot(icons),
+    PerfectScrollbarModule,
+    NzDividerModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },
