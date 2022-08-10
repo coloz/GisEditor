@@ -206,4 +206,9 @@ export class HomeComponent implements OnInit {
   }
 
 
+  keyword = ''
+  keywordChange() {
+
+  }
+
 }

@@ -27,20 +27,31 @@
     </div>
 </div>
 <div class="right-box">
-    <nz-button-group style="width:calc(100% - 20px);margin-left: 10px;">
-        <button nz-button nzType="default" style="width: 33.33%;">
-            <i class="fa-light fa-location-dot"></i>
-            <!-- 点位 -->
-        </button>
-        <button nz-button nzType="default" style="width: 33.33%;">
-            <i class="fa-light fa-route"></i>
-            <!-- 线路 -->
-        </button>
-        <button nz-button nzType="default" style="width: 33.33%;">
-            <i class="fa-light fa-draw-polygon"></i>
-            <!-- 区域 -->
-        </button>
-    </nz-button-group>
+    <div class="filter-box">
+        <nz-button-group>
+            <button nz-button nzType="default">
+                <i class="fa-light fa-location-dot"></i>
+                <!-- 点位 -->
+            </button>
+            <button nz-button nzType="default">
+                <i class="fa-light fa-route"></i>
+                <!-- 线路 -->
+            </button>
+            <button nz-button nzType="default">
+                <i class="fa-light fa-draw-polygon"></i>
+                <!-- 区域 -->
+            </button>
+        </nz-button-group>
+        <nz-input-group nzSearch [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input placeholder="关键词搜索" [(ngModel)]="keyword" (ngModelChange)="keywordChange()" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" nzSearch>
+                <i class="fa-light fa-magnifying-glass"></i>
+            </button>
+        </ng-template>
+    </div>
+
     <div class="content-box" [perfectScrollbar]="{}">
         <div class="item-list">
             <div class="item animate__animated animate__faster" *ngFor="let landBlock of landBlockList"

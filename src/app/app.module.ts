@@ -24,6 +24,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ComponentsModule } from './components/components.module';
+import { NzInputModule } from 'ng-zorro-antd/input';
 // import { NzIconModule } from 'ng-zorro-antd/icon';
 // import { IconDefinition } from '@ant-design/icons-angular';
 // import * as AllIcons from '@ant-design/icons-angular/icons';
@@ -50,7 +51,8 @@ registerLocaleData(zh);
     NzMessageModule,
     // NzIconModule.forRoot(icons),
     PerfectScrollbarModule,
-    NzDividerModule
+    NzDividerModule,
+    NzInputModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: zh_CN },

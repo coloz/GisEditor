@@ -40,6 +40,24 @@
     padding: 10px;
 }
 
+.filter-box {
+    padding: 0 10px;
+
+    nz-button-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            flex-grow: 1;
+        }
+    }
+
+    nz-input-group {
+        margin-top: 10px;
+    }
+}
+
 .info-box {
     position: absolute;
     top: 15px;
@@ -68,77 +86,79 @@
 }
 
 .content-box {
-    height: calc(100vh - 85px);
+    margin-top: 10px;
+    height: calc(100vh - 125px);
     width: 100%;
     position: relative;
-}
 
-.item-list {
-    display: flex;
-    flex-direction: column;
+    .item-list {
+        display: flex;
+        flex-direction: column;
 
-    .item {
-        position: relative;
-        height: 80px;
-        width: calc(100% - 30px);
-        border-bottom: 1px solid #CCC;
-        cursor: pointer;
-        box-shadow: 0 0 5px #CCC;
-        flex-grow: 0;
-        flex-shrink: 0;
-        margin-top: 15px;
-        margin-left: 15px;
-        border-radius: 10px;
-        padding: 10px;
-        transition: all 0.3s;
-        overflow: hidden;
-
-        .addr {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .del-btn {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
+        .item {
+            position: relative;
+            height: 80px;
+            width: calc(100% - 20px);
+            border-bottom: 1px solid #CCC;
             cursor: pointer;
-
-            &:hover {
-                color: rgb(0, 108, 190);
-            }
-        }
-
-        &:hover {
-            box-shadow: 0 0 5px rgb(0, 108, 190);
-        }
-
-        &.active {
-            background: rgb(0, 108, 190);
-            color: #FFF;
+            background: #FFF;
+            box-shadow: 0 0 5px #CCC;
+            flex-grow: 0;
+            flex-shrink: 0;
+            margin-top: 10px;
+            margin-left: 10px;
+            border-radius: 10px;
+            padding: 10px;
+            transition: all 0.3s;
+            overflow: hidden;
 
             .addr {
-                color: #ddd;
+                font-size: 12px;
+                color: #666;
             }
 
             .del-btn {
-                color: #ddd;
+                position: absolute;
+                right: 10px;
+                bottom: 10px;
+                cursor: pointer;
 
                 &:hover {
-                    color: #FFF;
+                    color: rgb(0, 108, 190);
                 }
             }
-        }
 
-        &.removeShow {
-            visibility: hidden;
-        }
+            &:hover {
+                box-shadow: 0 0 5px rgb(0, 108, 190);
+            }
 
-        &.removeHeight {
-            visibility: hidden;
-            height: 0;
-            padding: 0;
-            margin-top: 0;
+            &.active {
+                background: rgb(0, 108, 190);
+                color: #FFF;
+
+                .addr {
+                    color: #ddd;
+                }
+
+                .del-btn {
+                    color: #ddd;
+
+                    &:hover {
+                        color: #FFF;
+                    }
+                }
+            }
+
+            &.removeShow {
+                visibility: hidden;
+            }
+
+            &.removeHeight {
+                visibility: hidden;
+                height: 0;
+                padding: 0;
+                margin-top: 0;
+            }
         }
     }
 }
