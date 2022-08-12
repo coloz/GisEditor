@@ -24,6 +24,9 @@
         <button (click)="exportFile()" nz-button>
             <i class="fa-light fa-cloud-arrow-down"></i>
         </button>
+        <button (click)="exportFile()" nz-button>
+            <i class="fa-brands fa-github"></i>
+        </button>
     </div>
 </div>
 <div class="right-box">
@@ -63,8 +66,8 @@
             }">
                 <div class="name">{{landBlock.name}}</div>
                 <div class="addr">{{landBlock.addr}}</div>
-                <div class="del-btn" (click)="delLandBlock(landBlock)">
-                    <i nz-icon nzType="delete" nzTheme="outline"></i>
+                <div class="del-btn" (click)="delLandBlock(landBlock,$event)">
+                    <i class="fa-solid fa-trash-can"></i>
                 </div>
             </div>
         </div>

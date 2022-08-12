@@ -5,6 +5,12 @@ import { DataService } from '../services/data.service';
 import { saveAs } from 'file-saver';
 import { GisItem } from '../interfaces/item.interface';
 
+enum EditorState {
+  Wait,
+  Drawing,
+  Selected
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,9 +24,13 @@ export class HomeComponent implements OnInit {
   selected: GisItem | null = null;
   selectedList: GisItem[] = [];
 
-  polygonDict: any = {}
+  get polygonDict() {
+    return this.data.polygonDict
+  }
 
   tapPolygonTimer = false;
+
+  state = 'wait'
 
   get landBlockList() {
     return this.data.landBlockList
@@ -66,6 +76,7 @@ export class HomeComponent implements OnInit {
         path: landBlock.path
       })
       polygon.on('click', (e: any) => {
+        console.log('enter edit mode');
         this.tapPolygon()
         this.polyEditor.setTarget(polygon);
         this.polyEditor.open();
@@ -110,6 +121,7 @@ export class HomeComponent implements OnInit {
         this.polyEditor.addAdsorbPolygons(polygon);
         polygon.on('click', () => {
           this.tapPolygon()
+          console.log('enter edit mode');
           this.polyEditor.setTarget(polygon);
           this.polyEditor.open();
           this.selected = landBlock;
@@ -126,7 +138,8 @@ export class HomeComponent implements OnInit {
     if (this.selected != null)
       this.selected.path = polygon.getPath().map((p: any) => [p.lng, p.lat])
     this.data.saveLandBlock()
-    console.log(this.selected);
+    // console.log(this.selected);
+    // this.tapPolygon()
   }
 
   selectLandBlock(landBlock: GisItem) {
@@ -147,11 +160,13 @@ export class HomeComponent implements OnInit {
   }
 
   createPolygon() {
+    console.log('enter new mode');
     this.tapPolygonTimer = true
     this.polyEditor.close();
     this.polyEditor.setTarget();
     this.polyEditor.open();
     this.message.info('点击地图上任意位置，开始绘制地块<br>双击结束绘制<br>右键撤销绘制');
+    this.selected = null;
   }
 
   showSearch = false
@@ -177,10 +192,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  delLandBlock(landBlock: GisItem) {
+  delLandBlock(landBlock: GisItem, e: any) {
+    e.stopPropagation();
     landBlock['removeState'] = 1
     setTimeout(() => {
       landBlock['removeState'] = 2
+      this.polyEditor.close()
     }, 400);
     setTimeout(() => {
       landBlock['removeState'] = 3

@@ -7,26 +7,8 @@ import { GisItem } from '../interfaces/item.interface';
 })
 export class DataService {
 
-  landBlockList: GisItem[] = [
-    // {
-    //   id: "1",
-    //   name: "北京",
-    //   addr: "北京市海淀区",
-    //   creator: "张三",
-    //   createTime: "2020-01-01",
-    //   updateTime: "2020-01-01",
-    //   path: [[116.475334, 39.997534], [116.476627, 39.998315], [116.478603, 39.99879], [116.478529, 40.000296], [116.475082, 40.000151], [116.473421, 39.998717]]
-    // },
-    // {
-    //   id: "1",
-    //   name: "北京22",
-    //   addr: "北京111",
-    //   creator: "张三",
-    //   createTime: "2020-01-01",
-    //   updateTime: "2020-01-01",
-    //   path: [[116.474595, 40.001321], [116.473526, 39.999865], [116.476284, 40.000917]]
-    // },
-  ]
+  landBlockList: GisItem[] = []
+  polygonDict: any = {}
 
   map: any;
 
@@ -49,6 +31,9 @@ export class DataService {
   delLandBlock(landBlock: GisItem) {
     let index = this.landBlockList.indexOf(landBlock)
     this.landBlockList.splice(index, 1)
+    this.map.remove(this.polygonDict[landBlock.id])
+    // this.polygonDict[landBlock.id].destroy()
+    delete this.polygonDict[landBlock.id]
     this.saveLandBlock()
   }
 
