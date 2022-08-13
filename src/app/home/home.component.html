@@ -33,11 +33,11 @@
 <div class="right-box">
     <div class="filter-box">
         <nz-button-group>
-            <button nz-button nzType="default">
+            <button nz-button nzType="default" disabled>
                 <i class="fa-light fa-location-dot"></i>
                 <!-- 点位 -->
             </button>
-            <button nz-button nzType="default">
+            <button nz-button nzType="default" disabled>
                 <i class="fa-light fa-route"></i>
                 <!-- 线路 -->
             </button>
@@ -58,18 +58,19 @@
 
     <div class="content-box" [perfectScrollbar]="{}">
         <div class="item-list">
-            <div class="item animate__animated animate__faster" *ngFor="let landBlock of landBlockList"
-                (click)="selectItem(landBlock)" [ngClass]="{
-                'active': selected===landBlock,
-                'animate__flipOutX':landBlock.removeState==1,
-                'removeShow':landBlock.removeState==2,
-                'removeHeight':landBlock.removeState==3
+            <div class="item animate__animated animate__faster" *ngFor="let gisItem of resultList"
+                (click)="selectItem(gisItem)" [ngClass]="{
+                'active': selected===gisItem,
+                'animate__flipOutX':gisItem.removeState==1,
+                'removeShow':gisItem.removeState==2,
+                'removeHeight':gisItem.removeState==3
             }">
-                <div class="name">{{landBlock.name}}</div>
-                <div class="addr">{{landBlock.addr}}</div>
-                <div class="del-btn" (click)="delLandBlock(landBlock,$event)">
-                    <i class="fa-solid fa-trash-can"></i>
+                <div class="name">{{gisItem.name}}
+                    <div class="del-btn" (click)="delLandBlock(gisItem,$event)">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </div>
                 </div>
+                <div class="addr">{{gisItem.addr}}</div>
             </div>
         </div>
     </div>

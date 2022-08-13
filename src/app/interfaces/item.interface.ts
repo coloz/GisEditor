@@ -5,7 +5,7 @@ export interface GisItem {
     id: string,
     name: string,
     type?: GisItemType,
-    addr?: string,
+    addr: string,
     creator?: string,
     createTime: string,
     updateTime: string,

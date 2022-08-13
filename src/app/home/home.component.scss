@@ -112,15 +112,21 @@
             transition: height 0.3s;
             overflow: hidden;
 
+            .name {
+                position: relative;
+                line-height: 14px;
+            }
+
             .addr {
+                margin-top: 6px;
                 font-size: 12px;
                 color: #666;
             }
 
             .del-btn {
                 position: absolute;
-                right: 10px;
-                bottom: 10px;
+                right: 0px;
+                bottom: 0px;
                 cursor: pointer;
                 pointer-events: auto;
 

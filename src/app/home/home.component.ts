@@ -36,6 +36,8 @@ export class HomeComponent implements OnInit {
     return this.data.landBlockList
   }
 
+  resultList: any = []
+
   constructor(
     private message: NzMessageService,
     private data: DataService
@@ -58,6 +60,7 @@ export class HomeComponent implements OnInit {
       this.data.map = this.map
       this.polyEditor = new AMap.PolygonEditor(this.map);
       this.loadLandBlockList()
+      this.resultList = this.landBlockList
 
       this.map.on('click', (e: any) => {
         if (this.state == EditorState.Selected) {
@@ -75,6 +78,7 @@ export class HomeComponent implements OnInit {
 
   loadLandBlockList() {
     let polygonList: any[] = []
+
     this.data.landBlockList.forEach(landBlock => {
       let polygon = new this.AMap.Polygon({
         path: landBlock.path
@@ -131,6 +135,7 @@ export class HomeComponent implements OnInit {
         })
       }
       this.polygonDict[landBlock.id] = polygon
+      this.updateItemList()
       this.tapPolygonTimer = false
     })
 
@@ -150,13 +155,18 @@ export class HomeComponent implements OnInit {
     this.data.saveLandBlock()
   }
 
-  selectItem(landBlock: GisItem) {
-    let polygon = this.polygonDict[landBlock.id]
+  selectItem(gisItem: GisItem) {
+    console.log(gisItem);
+
+    let polygon = this.polygonDict[gisItem.id]
     this.polyEditor.setTarget(polygon);
     this.polyEditor.open();
-    this.selected = landBlock;
-    let center = this.data.getCenter(landBlock.path)
-    this.data.gotoPosition(center);
+    this.selected = gisItem;
+    if (gisItem.path.length != 0) {
+      let center = this.data.getCenter(gisItem.path)
+      this.data.gotoPosition(center);
+    }
+
   }
 
   selectPolygon(gisItem: GisItem, polygon: any) {
@@ -242,7 +252,11 @@ export class HomeComponent implements OnInit {
 
   keyword = ''
   keywordChange() {
+    this.updateItemList()
+  }
 
+  updateItemList() {
+    this.resultList = this.landBlockList.filter(item => item.addr.includes(this.keyword))
   }
 
   gotoGithub() {
