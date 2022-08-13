@@ -28,9 +28,9 @@ export class HomeComponent implements OnInit {
     return this.data.polygonDict
   }
 
-  tapPolygonTimer = false;
+  tapPolygonTimer = false
 
-  state = 'wait'
+  state = EditorState.Wait
 
   get landBlockList() {
     return this.data.landBlockList
@@ -60,8 +60,12 @@ export class HomeComponent implements OnInit {
       this.loadLandBlockList()
 
       this.map.on('click', (e: any) => {
-        if (!this.tapPolygonTimer)
-          this.polyEditor.close();
+        if (this.state == EditorState.Selected) {
+          if (!this.tapPolygonTimer) {
+            this.polyEditor.close();
+            this.state = EditorState.Wait;
+          }
+        }
       })
 
     }).catch((e: any) => {
@@ -76,11 +80,7 @@ export class HomeComponent implements OnInit {
         path: landBlock.path
       })
       polygon.on('click', (e: any) => {
-        console.log('enter edit mode');
-        this.tapPolygon()
-        this.polyEditor.setTarget(polygon);
-        this.polyEditor.open();
-        this.selected = landBlock;
+        this.selectPolygon(landBlock, polygon)
       })
       this.polygonDict[landBlock.id] = polygon
       polygonList.push(polygon)
@@ -96,11 +96,13 @@ export class HomeComponent implements OnInit {
       this.polygonChange(data)
     })
     this.polyEditor.on('removenode', (data: any) => {
+      this.tapPolygon()
       this.polygonChange(data)
     })
 
     // 添加地块
     this.polyEditor.on('add', async (data: any) => {
+      this.state = EditorState.Wait;
       console.log(data);
       let polygon = data.target;
       let landBlock: GisItem = {
@@ -119,17 +121,25 @@ export class HomeComponent implements OnInit {
         this.data.addLandBlock(landBlock)
         this.selected = landBlock;
         this.polyEditor.addAdsorbPolygons(polygon);
-        polygon.on('click', () => {
-          this.tapPolygon()
-          console.log('enter edit mode');
-          this.polyEditor.setTarget(polygon);
-          this.polyEditor.open();
-          this.selected = landBlock;
+        polygon.on('click', (e: any) => {
+          this.selectPolygon(landBlock, polygon)
+          // this.tapPolygon()
+          // console.log('enter edit mode');
+          // this.polyEditor.setTarget(polygon);
+          // this.polyEditor.open();
+          // this.selected = landBlock;
         })
       }
       this.polygonDict[landBlock.id] = polygon
       this.tapPolygonTimer = false
     })
+
+    // this.polyEditor.on('end', () => {
+    //   console.log('end:', 'endedn');
+    //   setTimeout(() => {
+    //     this.state = EditorState.Wait;
+    //   }, 100);
+    // })
   }
 
   polygonChange(data: any) {
@@ -138,17 +148,23 @@ export class HomeComponent implements OnInit {
     if (this.selected != null)
       this.selected.path = polygon.getPath().map((p: any) => [p.lng, p.lat])
     this.data.saveLandBlock()
-    // console.log(this.selected);
-    // this.tapPolygon()
   }
 
-  selectLandBlock(landBlock: GisItem) {
+  selectItem(landBlock: GisItem) {
     let polygon = this.polygonDict[landBlock.id]
     this.polyEditor.setTarget(polygon);
     this.polyEditor.open();
     this.selected = landBlock;
     let center = this.data.getCenter(landBlock.path)
     this.data.gotoPosition(center);
+  }
+
+  selectPolygon(gisItem: GisItem, polygon: any) {
+    this.state = EditorState.Selected
+    this.tapPolygon()
+    this.polyEditor.setTarget(polygon);
+    this.polyEditor.open();
+    this.selected = gisItem;
   }
 
   createPonit() {
@@ -160,6 +176,7 @@ export class HomeComponent implements OnInit {
   }
 
   createPolygon() {
+    this.state = EditorState.Drawing;
     console.log('enter new mode');
     this.tapPolygonTimer = true
     this.polyEditor.close();
@@ -226,6 +243,10 @@ export class HomeComponent implements OnInit {
   keyword = ''
   keywordChange() {
 
+  }
+
+  gotoGithub() {
+    window.open("https://github.com/coloz/GisEditor", "_blank")
   }
 
 }

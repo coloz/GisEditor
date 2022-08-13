@@ -24,7 +24,8 @@
         <button (click)="exportFile()" nz-button>
             <i class="fa-light fa-cloud-arrow-down"></i>
         </button>
-        <button (click)="exportFile()" nz-button>
+        <nz-divider style="margin: 6px 0;"></nz-divider>
+        <button (click)="gotoGithub()" nz-button>
             <i class="fa-brands fa-github"></i>
         </button>
     </div>
@@ -58,7 +59,7 @@
     <div class="content-box" [perfectScrollbar]="{}">
         <div class="item-list">
             <div class="item animate__animated animate__faster" *ngFor="let landBlock of landBlockList"
-                (click)="selectLandBlock(landBlock)" [ngClass]="{
+                (click)="selectItem(landBlock)" [ngClass]="{
                 'active': selected===landBlock,
                 'animate__flipOutX':landBlock.removeState==1,
                 'removeShow':landBlock.removeState==2,
