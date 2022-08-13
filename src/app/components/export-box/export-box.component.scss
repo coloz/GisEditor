@@ -1,0 +1,15 @@
+.export-box {
+    >div {
+        display: flex;
+        align-items: center;
+
+        nz-select {
+            flex-grow: 1;
+        }
+    }
+
+    button {
+        margin-top: 15px;
+        width: 100%;
+    }
+}

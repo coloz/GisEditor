@@ -1,0 +1,11 @@
+<div class="export-box">
+    <div>
+        <div>
+            坐标系：
+        </div>
+        <nz-select [(ngModel)]="coord">
+            <nz-option *ngFor="let type of types" [nzValue]="type.value" [nzLabel]="type.name"></nz-option>
+        </nz-select>
+    </div>
+    <button nz-button nzType="primary" (click)="exportFile()">导出</button>
+</div>

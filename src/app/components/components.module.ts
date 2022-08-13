@@ -7,24 +7,30 @@ import { FormsModule } from '@angular/forms';
 import { InfoBoxComponent } from './info-box/info-box.component';
 import { ItemListComponent } from './item-list/item-list.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-
+import { ExportBoxComponent } from './export-box/export-box.component';
+import { NzSelectModule } from 'ng-zorro-antd/select';
+import { NzMessageModule } from 'ng-zorro-antd/message';
 
 @NgModule({
   declarations: [
     SearchBoxComponent,
     InfoBoxComponent,
-    ItemListComponent
+    ItemListComponent,
+    ExportBoxComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     NzInputModule,
     NzButtonModule,
-    PerfectScrollbarModule
+    PerfectScrollbarModule,
+    NzSelectModule,
+    NzMessageModule
   ],
   exports: [
     SearchBoxComponent,
-    InfoBoxComponent
+    InfoBoxComponent,
+    ExportBoxComponent
   ]
 })
 export class ComponentsModule { }

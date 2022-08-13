@@ -22,6 +22,7 @@
     "@ngx-formly/core": "^5.12.6",
     "animate.css": "^4.1.1",
     "file-saver": "^2.0.5",
+    "gcoord": "^0.3.2",
     "ng-zorro-antd": "^13.4.0",
     "ngx-formly-ng-zorro2": "^0.0.10",
     "ngx-perfect-scrollbar": "^10.1.1",

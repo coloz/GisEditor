@@ -21,7 +21,7 @@
         <button (click)="importFile()" nz-button>
             <i class="fa-light fa-file-import"></i>
         </button>
-        <button (click)="exportFile()" nz-button>
+        <button (click)="openExportBox()" nz-button [nzType]="showExport?'primary':'default'">
             <i class="fa-light fa-cloud-arrow-down"></i>
         </button>
         <nz-divider style="margin: 6px 0;"></nz-divider>
@@ -77,6 +77,9 @@
 </div>
 <div *ngIf="showSearch" class="search-box animate__animated animate__faster animate__fadeInDown">
     <app-search-box></app-search-box>
+</div>
+<div *ngIf="showExport" class="export-box animate__animated animate__faster animate__fadeInDown">
+    <app-export-box></app-export-box>
 </div>
 <div *ngIf="selected" class="info-box animate__animated animate__faster animate__fadeInDown">
     <app-info-box [data]="selected"></app-info-box>

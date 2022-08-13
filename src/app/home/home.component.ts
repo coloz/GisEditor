@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import * as AMapLoader from '@amap/amap-jsapi-loader';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { DataService } from '../services/data.service';
-import { saveAs } from 'file-saver';
 import { GisItem } from '../interfaces/item.interface';
 
 enum EditorState {
@@ -66,6 +65,7 @@ export class HomeComponent implements OnInit {
         if (this.state == EditorState.Selected) {
           if (!this.tapPolygonTimer) {
             this.polyEditor.close();
+            this.selected = null
             this.state = EditorState.Wait;
           }
         }
@@ -157,7 +157,7 @@ export class HomeComponent implements OnInit {
 
   selectItem(gisItem: GisItem) {
     console.log(gisItem);
-
+    this.state = EditorState.Selected
     let polygon = this.polygonDict[gisItem.id]
     this.polyEditor.setTarget(polygon);
     this.polyEditor.open();
@@ -196,27 +196,8 @@ export class HomeComponent implements OnInit {
     this.selected = null;
   }
 
-  showSearch = false
-  openSearchBar() {
-    this.showSearch = !this.showSearch
-  }
-
   importFile() {
 
-  }
-
-  exportFile() {
-    if (this.landBlockList.length == 0) {
-      this.message.error('未创建任何地块');
-      return
-    }
-    let data = this.landBlockList
-    try {
-      let file = new File([JSON.stringify(data)], `landblock.json`, { type: "text/plain;charset=utf-8" });
-      saveAs(file);
-    } catch (error) {
-      this.message.error('导出失败')
-    }
   }
 
   delLandBlock(landBlock: GisItem, e: any) {
@@ -261,6 +242,16 @@ export class HomeComponent implements OnInit {
 
   gotoGithub() {
     window.open("https://github.com/coloz/GisEditor", "_blank")
+  }
+
+  showSearch = false
+  openSearchBar() {
+    this.showSearch = !this.showSearch
+  }
+
+  showExport = false
+  openExportBox() {
+    this.showExport = !this.showExport
   }
 
 }
