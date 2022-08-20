@@ -15,4 +15,9 @@
 npm i
 ng serve
 ```
-**编译**  
+**编译**    
+```
+ng build
+```
+**部署**  
+见[Angular官方文档](https://angular.cn/guide/deployment)  
