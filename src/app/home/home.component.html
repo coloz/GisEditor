@@ -1,31 +1,33 @@
 <div class="map" id="container"></div>
 <div class="left-box">
     <div class="toolbox">
-        <button (click)="openSearchBar()" nz-button [nzType]="showSearch?'primary':'default'">
+        <button (click)="openSearchBar()" nz-button [nzType]="showSearch?'primary':'default'" nzTooltipTitle="搜索"
+            nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-magnifying-glass"></i>
         </button>
         <nz-divider style="margin: 6px 0;"></nz-divider>
-        <button (click)="createPonit()" nz-button disabled>
+        <button (click)="createPonit()" nz-button nzTooltipTitle="点" nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-location-dot"></i>
         </button>
-        <button (click)="createLine()" nz-button disabled>
+        <button (click)="createLine()" nz-button nzTooltipTitle="线(还没写)" nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-route"></i>
         </button>
-        <button (click)="createPolygon()" nz-button>
+        <button (click)="createPolygon()" nz-button nzTooltipTitle="面" nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-draw-polygon"></i>
         </button>
         <nz-divider style="margin: 6px 0;"></nz-divider>
-        <button (click)="importFile()" nz-button>
+        <!-- <button (click)="importFile()" nz-button>
             <i class="fa-light fa-gear"></i>
-        </button>
-        <button (click)="importFile()" nz-button>
+        </button> -->
+        <button (click)="importFile()" nz-button nzTooltipTitle="导入" nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-file-import"></i>
         </button>
-        <button (click)="openExportBox()" nz-button [nzType]="showExport?'primary':'default'">
+        <button (click)="openExportBox()" nz-button [nzType]="showExport?'primary':'default'" nzTooltipTitle="导出"
+            nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-light fa-cloud-arrow-down"></i>
         </button>
         <nz-divider style="margin: 6px 0;"></nz-divider>
-        <button (click)="gotoGithub()" nz-button>
+        <button (click)="gotoGithub()" nz-button nzTooltipTitle="GitHub" nzTooltipPlacement="right" nz-tooltip>
             <i class="fa-brands fa-github"></i>
         </button>
     </div>

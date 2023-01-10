@@ -10,6 +10,13 @@ enum EditorState {
   Selected
 }
 
+enum EditorMode {
+  NULL,
+  Point,
+  Line,
+  Polygon
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -30,6 +37,9 @@ export class HomeComponent implements OnInit {
   tapPolygonTimer = false
 
   state = EditorState.Wait
+  mode = EditorMode.NULL;
+
+  markerIcon: any;
 
   get landBlockList() {
     return this.data.landBlockList
@@ -61,13 +71,31 @@ export class HomeComponent implements OnInit {
       this.loadLandBlockList()
       this.resultList = this.landBlockList
 
+      this.markerIcon = new this.AMap.Icon({
+        size: new this.AMap.Size(40, 40),
+        image: "assets/marker.png",
+        imageSize: new this.AMap.Size(40, 40)
+      });
+
       this.map.on('click', (e: any) => {
-        if (this.state == EditorState.Selected) {
-          if (!this.tapPolygonTimer) {
-            this.polyEditor.close();
-            this.selected = null
-            this.state = EditorState.Wait;
-          }
+        switch (this.mode) {
+          case EditorMode.Point:
+            this.addMarker([e.lnglat.getLng(), e.lnglat.getLat()])
+            break;
+          case EditorMode.Line:
+
+            break;
+          case EditorMode.Polygon:
+            if (this.state == EditorState.Selected) {
+              if (!this.tapPolygonTimer) {
+                this.polyEditor.close();
+                this.selected = null
+                this.state = EditorState.Wait;
+              }
+            }
+            break;
+          default:
+            break;
         }
       })
 
@@ -126,12 +154,8 @@ export class HomeComponent implements OnInit {
         this.selected = landBlock;
         this.polyEditor.addAdsorbPolygons(polygon);
         polygon.on('click', (e: any) => {
-          this.selectPolygon(landBlock, polygon)
-          // this.tapPolygon()
-          // console.log('enter edit mode');
-          // this.polyEditor.setTarget(polygon);
-          // this.polyEditor.open();
-          // this.selected = landBlock;
+          if (this.mode == EditorMode.Polygon)
+            this.selectPolygon(landBlock, polygon)
         })
       }
       this.polygonDict[landBlock.id] = polygon
@@ -178,14 +202,28 @@ export class HomeComponent implements OnInit {
   }
 
   createPonit() {
+    this.mode = EditorMode.Point
+    this.polyEditor.close();
+  }
 
+  addMarker(position) {
+    let marker = new this.AMap.Marker({
+      icon: this.markerIcon,
+      position: position,
+      draggable: true,
+      cursor: 'move',
+      anchor: 'bottom-center',
+    });
+    marker.setMap(this.map);
   }
 
   createLine() {
-
+    this.mode = EditorMode.Line
+    this.polyEditor.close();
   }
 
   createPolygon() {
+    this.mode = EditorMode.Polygon
     this.state = EditorState.Drawing;
     console.log('enter new mode');
     this.tapPolygonTimer = true
